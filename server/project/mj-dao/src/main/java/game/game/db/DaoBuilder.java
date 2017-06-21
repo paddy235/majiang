@@ -20,7 +20,11 @@ public class DaoBuilder {
      */
     public static void main(String[] args) {
         try {
+
             File projectFile = new File(new File(".").getCanonicalFile(), "project");
+            if(!projectFile.exists()){
+                projectFile = new File(new File(".").getCanonicalFile(), "server/project");
+            }
 
             String path = new File(
                     projectFile,

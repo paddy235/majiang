@@ -15,6 +15,7 @@ import game.boss.utils.RSACoderUtils;
 import mj.data.Config;
 import mj.net.message.login.*;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -136,6 +137,7 @@ public class UserService extends FrameQueueContainer implements BaseService {
                 try {
                     userDO = new UserDO();
                     userDO.setOpenId(openId);
+                    userDO.setPassword(RandomStringUtils.randomAlphanumeric(11));
                     userDO.setName(StringUtils.substring(openId, 0, 8));
                     userDO.setUuid(UUID.generateNoSep());
                     Date now = new Date();

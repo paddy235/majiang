@@ -14,7 +14,7 @@ const minifyHTML = require('gulp-minify-html');
 const minifyInline = require('gulp-minify-inline');
 const htmlAutoprefixer = require("gulp-html-autoprefixer");
 const replace = require('gulp-replace');
-const imagemagick = require("imagemagick-native");
+const gm = require("gm");
 const converter = require('image-to-icon-converter');
 
 let VERSION = gulp.env.version;
@@ -197,28 +197,31 @@ gulp.task('icons', function (cb) {
                 fs.mkdirSync(dirPath);
             }
             iconSize.forEach((size) => {
-                fs.createReadStream(paths.icon).pipe(imagemagick.streams.convert({
-                    srcData: fs.readFileSync(paths.icon),
-                    width: size,
-                    height: size,
-                    resizeStyle: 'aspectfill',
-                    gravity: 'Center'
-                })).pipe(fs.createWriteStream(distPath(`/icon/${size}.png`)))
-                    .on("close", () => endFun())
-                    .on("error", (e) => endFun(e));
+                gm(paths.icon)
+                    .resize(size, size)
+                    .noProfile()
+                    .gravity('Center')
+                    .write(distPath(`/icon/${size}.png`), function (err) {
+                        if (!err) {
+                            endFun();
+                        } else {
+                            endFun(err);
+                        }
+                    });
             });
 
 
-            fs.createReadStream(paths.icon).pipe(imagemagick.streams.convert({
-                srcData: fs.readFileSync(paths.icon),
-                resizeStyle: 'aspectfill',
-                gravity: 'Center',
-                width: 128,
-                height: 128,
-                format: 'ICO',
-            })).pipe(fs.createWriteStream(distPath(`/favicon.ico`)))
-                .on("close", () => endFun())
-                .on("error", (e) => endFun(e));
+            gm(paths.icon)
+                .resize(128, 128)
+                .noProfile()
+                .gravity('Center')
+                .write(distPath(`/favicon.ico`), function (err) {
+                    if (!err) {
+                        endFun();
+                    } else {
+                        endFun(err);
+                    }
+                });
         } catch (error) {
             console.log(error);
             reject(error);
@@ -255,9 +258,8 @@ var androidIconInfo = [
 ];
 
 
-
-gulp.task('androidIcons', icons(androidIconInfo, "android","icon", paths.icon));
-gulp.task('iosIcons', icons(iosIconInfo, "ios","icon", paths.icon));
+gulp.task('androidIcons', icons(androidIconInfo, "android", "icon", paths.icon));
+gulp.task('iosIcons', icons(iosIconInfo, "ios", "icon", paths.icon));
 
 
 var androidSplashInfoLand = [
@@ -288,8 +290,8 @@ var iosSplashInfo = [
     {h: 480, w: 320, name: "Default~iphone.jpg"},
 ];
 
-gulp.task('androidSplash', icons(androidSplashInfoLand, "android","splash", paths.splashLand));
-gulp.task('iosSplashLand', icons(iosSplashInfoLand, "ios","splash", paths.splashLand));
+gulp.task('androidSplash', icons(androidSplashInfoLand, "android", "splash", paths.splashLand));
+gulp.task('iosSplashLand', icons(iosSplashInfoLand, "ios", "splash", paths.splashLand));
 // gulp.task('iosSplash', icons(iosSplashInfo, "ios","splash", paths.splash));
 
 function icons(iconInfos, type, dirType, source) {
@@ -323,15 +325,18 @@ function icons(iconInfos, type, dirType, source) {
                     fs.mkdirSync(dirPath);
                 }
                 iconInfos.forEach((item) => {
-                    fs.createReadStream(source).pipe(imagemagick.streams.convert({
-                        srcData: fs.readFileSync(source),
-                        width: item.w,
-                        height: item.h,
-                        resizeStyle: 'aspectfill',
-                        gravity: 'Center'
-                    })).pipe(fs.createWriteStream(`../cordova/resources/${type}/${dirType}/${item.name}`))
-                        .on("close", () => endFun())
-                        .on("error", (e) => endFun(e));
+                    gm(source)
+                        .resize(item.w, item.h)
+                        .noProfile()
+                        .gravity('Center')
+                        .write((`../cordova/resources/${type}/${dirType}/${item.name}`), function (err) {
+                            if (!err) {
+                                endFun();
+                            } else {
+                                endFun(err);
+                            }
+                        });
+                    ;
                 });
             } catch (error) {
                 console.log(error);
@@ -383,5 +388,5 @@ gulp.task('webclient', ['htmlImage', 'laya', 'images', 'json', 'favicon', 'docke
     console.log("webclient start");
     return gulp.src(['dist/web/**/*'])
         .pipe(plumber())
-        .pipe(gulp.dest("/Volumes/doc/wk/h5game/majiang/server/project/distribution/src/static/" + profile));
+        .pipe(gulp.dest("../../server/project/distribution/src/static/" + profile));
 });

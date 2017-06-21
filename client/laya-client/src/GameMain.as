@@ -100,9 +100,9 @@ package
             var serverUrl:String = __JS__("window.serverUrl");
             if (!serverUrl)
             {
-//                serverUrl = "ws://127.0.0.1:8010/g";
+                serverUrl = "ws://127.0.0.1:8010/g";
 //                serverUrl = "ws://192.168.0.205:8010/g";
-                serverUrl = "ws://182.92.100.147:8012/g";
+//                serverUrl = "ws://182.92.100.147:8012/g";
             }
 //            Net.instance.init("ws://127.0.0.1:8010/g", function ():void
 //            Net.instance.init("ws://192.168.0.205:8010/g", function ():void

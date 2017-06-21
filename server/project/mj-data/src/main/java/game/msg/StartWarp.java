@@ -9,9 +9,17 @@ import java.net.URL;
 
 public class StartWarp {
 	public static final void start() throws IOException {
-        File projectFile = new File(new File(".").getCanonicalFile(), "project");
+		File projectFile = new File(new File(".").getCanonicalFile(), "project");
+		if(!projectFile.exists()){
+			projectFile = new File(new File(".").getCanonicalFile(), "server/project");
+		}
 
-        File msgDir = new File(
+		File clientFile = new File(new File(".").getCanonicalFile(), "laya-client");
+		if(!clientFile.exists()){
+			clientFile = new File(new File(".").getCanonicalFile(), "client/laya-client");
+		}
+
+		File msgDir = new File(
                 projectFile,
                 "mj-data/src/main/resources/msg"
         );
@@ -31,7 +39,11 @@ public class StartWarp {
 		c.setJavaCharacterPackage("game.boss.model");
 		c.setJavaCharacterClassName("User");
 
-        c.setAsSrcPath("/Volumes/doc/wk/h5game/majiang/client/laya-client/src");
+		File asDir = new File(
+				clientFile,
+				"src"
+		);
+        c.setAsSrcPath(asDir.getAbsolutePath());
 		c.setAsRootPackage("mj.net.message");
 		c.setAsHandlerRootPackage("mj.net.handler");
         c.setAsDirName("laya/");

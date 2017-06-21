@@ -20,10 +20,10 @@
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
     "image-to-icon-converter": "latest",
-    "imagemagick-native": "latest",
     "gulp-replace": "latest",
     "gulp-minify-html": "latest",
     "gulp-minify-inline": "latest",
+    "gm": "^1.23.0",
     "gulp-html-autoprefixer": "latest"
   },
   "nodeSassConfig": {
