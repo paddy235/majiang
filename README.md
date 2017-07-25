@@ -15,6 +15,14 @@
 ##
 声明，本人不对任何问题负责，只是公开这份代码。。最近太忙没时间提供咨询，联系请加qq 群 173103450
 
+
+
+8. 全部代码开源 lib 依赖库地址
+https://github.com/zuoge85/game-lib
+9. 外壳部分依赖 lib
+https://github.com/forkjoinorg/base/tree/2.0.1
+
+
 ## 测试服务器 
 
 可以微信打开了，但是不能微信登录。谢谢，
